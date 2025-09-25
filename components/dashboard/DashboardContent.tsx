@@ -1,6 +1,8 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -57,8 +59,16 @@ interface DashboardContentProps {
 }
 
 export function DashboardContent({ userId }: DashboardContentProps) {
+  const queryClient = useQueryClient();
+  const searchParams = useSearchParams();
+  const wasJustUploaded = searchParams.get("uploaded") === "true";
+
   // Check if user has any processed music history
-  const { data: stats, isLoading: statsLoading } = useQuery({
+  const {
+    data: stats,
+    isLoading: statsLoading,
+    refetch: refetchStats,
+  } = useQuery({
     queryKey: ["stats", userId],
     queryFn: async () => {
       const response = await fetch("/api/stats");
@@ -70,7 +80,7 @@ export function DashboardContent({ userId }: DashboardContentProps) {
   });
 
   // Check for any ongoing processing
-  const { data: processing } = useQuery({
+  const { data: processing, refetch: refetchProcessing } = useQuery({
     queryKey: ["processing-status"],
     queryFn: async () => {
       const response = await fetch("/api/process/status/latest");
@@ -81,17 +91,56 @@ export function DashboardContent({ userId }: DashboardContentProps) {
       return response.json();
     },
     refetchInterval: (query) => {
-      // Refetch every 2 seconds if processing is ongoing
-      return query.state.data?.status === "processing" ? 2000 : false;
+      // Refetch more frequently if processing is ongoing or if we just uploaded
+      const isProcessing = query.state.data?.status === "processing";
+      if (isProcessing || wasJustUploaded) {
+        return 2000; // 2 seconds
+      }
+      return false;
     },
   });
+
+  // Force refetch processing status if we just uploaded
+  useEffect(() => {
+    if (wasJustUploaded) {
+      // Wait a moment for the processing to start, then refetch
+      const timer = setTimeout(() => {
+        refetchProcessing();
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [wasJustUploaded, refetchProcessing]);
+
+  // Clean up URL parameter once we have processing data
+  useEffect(() => {
+    if (wasJustUploaded && processing?.processId) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("uploaded");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, [wasJustUploaded, processing?.processId]);
+
+  // Ensure stats has the expected structure
+  const hasValidStats =
+    stats?.success && stats?.data && typeof stats.data === "object";
 
   if (statsLoading) {
     return <CardLoading text="Loading your music stats..." height="16rem" />;
   }
 
+  // If we just uploaded, prioritize showing processing status even if no processing data yet
+  if (wasJustUploaded && !processing) {
+    return (
+      <CardLoading
+        text="Starting to process your music history..."
+        height="16rem"
+      />
+    );
+  }
+
   // If no stats and no processing, show welcome screen with upload link
-  if (!stats && !processing) {
+  if (!hasValidStats && !processing && !wasJustUploaded) {
     return (
       <motion.div
         className="max-w-3xl mx-auto"
@@ -163,18 +212,38 @@ export function DashboardContent({ userId }: DashboardContentProps) {
   }
 
   // If processing is ongoing, show processing status
-  if (processing && processing.status === "processing" && processing.processId) {
+  if (
+    processing &&
+    processing.processId &&
+    (processing.status === "processing" || wasJustUploaded)
+  ) {
     return (
       <div className="max-w-2xl mx-auto">
         <ProcessingStatus
           historyId={processing.processId}
-          onComplete={() => {
-            // Refetch stats when processing completes
-            window.location.reload();
+          onComplete={async () => {
+            // Clear the uploaded param
+            const url = new URL(window.location.href);
+            url.searchParams.delete("uploaded");
+            window.history.replaceState({}, "", url.toString());
+
+            // Invalidate and refetch all relevant queries
+            await queryClient.invalidateQueries({ queryKey: ["stats"] });
+            await queryClient.invalidateQueries({
+              queryKey: ["processing-status"],
+            });
+
+            // Force refetch stats to ensure we have the latest data
+            await refetchStats();
           }}
         />
       </div>
     );
+  }
+
+  // Show loading if we don't have valid stats but processing is complete
+  if (!hasValidStats && processing?.status === "completed") {
+    return <CardLoading text="Loading your music stats..." height="16rem" />;
   }
 
   // Show full dashboard
@@ -198,13 +267,14 @@ export function DashboardContent({ userId }: DashboardContentProps) {
               ? new Date(stats.data.lastUpdated).toLocaleDateString()
               : "Never"}
           </Badge>
-          {stats?.data?.totalSongs && (
-            <Badge variant="outline" className="gap-1">
-              <Music className="h-3 w-3" />
-              {new Intl.NumberFormat().format(stats.data.totalSongs)} songs
-              analyzed
-            </Badge>
-          )}
+          {stats?.data?.totalSongs &&
+            typeof stats.data.totalSongs === "number" && (
+              <Badge variant="outline" className="gap-1">
+                <Music className="h-3 w-3" />
+                {new Intl.NumberFormat().format(stats.data.totalSongs)} songs
+                analyzed
+              </Badge>
+            )}
         </div>
       </motion.div>
 
@@ -318,40 +388,67 @@ export function DashboardContent({ userId }: DashboardContentProps) {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {stats?.data && (
-                    <>
-                      <div className="p-3 bg-muted/50 rounded-lg">
-                        <p className="text-sm font-medium">
-                          Average song length
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {Math.floor(stats.data.averageSongLength / 60)}:
-                          {String(
-                            Math.floor(stats.data.averageSongLength % 60)
-                          ).padStart(2, "0")}
-                        </p>
-                      </div>
-                      <div className="p-3 bg-muted/50 rounded-lg">
-                        <p className="text-sm font-medium">Music variety</p>
-                        <p className="text-xs text-muted-foreground">
-                          {(
-                            (stats.data.totalSongs / stats.data.totalListens) *
-                            100
-                          ).toFixed(1)}
-                          % unique songs
-                        </p>
-                      </div>
-                      <div className="p-3 bg-muted/50 rounded-lg">
-                        <p className="text-sm font-medium">Dedication level</p>
-                        <p className="text-xs text-muted-foreground">
-                          {Math.round(
-                            stats.data.totalListens / stats.data.totalArtists
-                          )}{" "}
-                          listens per artist
-                        </p>
-                      </div>
-                    </>
-                  )}
+                  {stats?.data &&
+                    stats.data.totalSongs &&
+                    stats.data.totalListens &&
+                    stats.data.totalArtists && (
+                      <>
+                        <div className="p-3 bg-muted/50 rounded-lg">
+                          <p className="text-sm font-medium">
+                            Average song length
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {stats.data.averageSongLength ? (
+                              <>
+                                {Math.floor(stats.data.averageSongLength / 60)}:
+                                {String(
+                                  Math.floor(stats.data.averageSongLength % 60)
+                                ).padStart(2, "0")}
+                              </>
+                            ) : (
+                              "N/A"
+                            )}
+                          </p>
+                        </div>
+                        <div className="p-3 bg-muted/50 rounded-lg">
+                          <p className="text-sm font-medium">Music variety</p>
+                          <p className="text-xs text-muted-foreground">
+                            {stats.data.totalSongs &&
+                            stats.data.totalListens ? (
+                              <>
+                                {(
+                                  (stats.data.totalSongs /
+                                    stats.data.totalListens) *
+                                  100
+                                ).toFixed(1)}
+                                % unique songs
+                              </>
+                            ) : (
+                              "N/A"
+                            )}
+                          </p>
+                        </div>
+                        <div className="p-3 bg-muted/50 rounded-lg">
+                          <p className="text-sm font-medium">
+                            Dedication level
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {stats.data.totalListens &&
+                            stats.data.totalArtists ? (
+                              <>
+                                {Math.round(
+                                  stats.data.totalListens /
+                                    stats.data.totalArtists
+                                )}{" "}
+                                listens per artist
+                              </>
+                            ) : (
+                              "N/A"
+                            )}
+                          </p>
+                        </div>
+                      </>
+                    )}
                 </CardContent>
               </Card>
             </div>

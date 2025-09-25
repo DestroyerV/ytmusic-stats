@@ -3,6 +3,7 @@ import connectDB from "@/lib/db/connect";
 import { MusicHistory, HistoryEntry, UserStats } from "@/lib/db/models";
 import { inngest } from "@/lib/inngest/client";
 import { UserStatsService } from "@/lib/services/user-stats";
+import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
 // Function to clean up all existing user data
@@ -162,6 +163,7 @@ export async function POST(request: NextRequest) {
     musicHistory._id.toString()
   );
 
+  
   // Trigger Inngest function to process the uploaded file
   await inngest.send({
     name: "process/music-history",
@@ -172,7 +174,7 @@ export async function POST(request: NextRequest) {
       fileSize: file.size,
     },
   });
-
+  
   return NextResponse.json({
     success: true,
     data: {

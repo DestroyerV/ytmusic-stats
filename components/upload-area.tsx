@@ -81,8 +81,7 @@ export function UploadArea() {
         description: "Your music history is now being processed.",
       });
 
-      router.replace("/dashboard");
-      router.refresh();
+      router.push("/dashboard?uploaded=true");
     } catch (error) {
       console.error("Upload error:", error);
       setUploadStatus("error");
@@ -150,9 +149,13 @@ export function UploadArea() {
       case "error":
         return <X className="h-8 w-8 sm:h-12 sm:w-12 text-destructive" />;
       case "uploading":
-        return <Upload className="h-8 w-8 sm:h-12 sm:w-12 text-foreground animate-pulse" />;
+        return (
+          <Upload className="h-8 w-8 sm:h-12 sm:w-12 text-foreground animate-pulse" />
+        );
       default:
-        return <Upload className="h-8 w-8 sm:h-12 sm:w-12 text-muted-foreground" />;
+        return (
+          <Upload className="h-8 w-8 sm:h-12 sm:w-12 text-muted-foreground" />
+        );
     }
   };
 
@@ -194,7 +197,9 @@ export function UploadArea() {
 
             {isDragActive && !isDragReject && (
               <div>
-                <p className="text-base sm:text-lg font-medium">Drop your file here...</p>
+                <p className="text-base sm:text-lg font-medium">
+                  Drop your file here...
+                </p>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                   Release to upload your music history
                 </p>
@@ -214,7 +219,9 @@ export function UploadArea() {
 
             {uploadStatus === "uploading" && (
               <div>
-                <p className="text-base sm:text-lg font-medium">Uploading your file...</p>
+                <p className="text-base sm:text-lg font-medium">
+                  Uploading your file...
+                </p>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                   Processing your music history data
                 </p>
@@ -229,7 +236,9 @@ export function UploadArea() {
 
             {uploadStatus === "success" && (
               <div>
-                <p className="text-base sm:text-lg font-medium">Upload successful! 🎉</p>
+                <p className="text-base sm:text-lg font-medium">
+                  Upload successful! 🎉
+                </p>
                 <p className="text-xs sm:text-sm text-muted-foreground mt-1">
                   Your file is now being processed. You'll see your stats
                   shortly.
@@ -262,7 +271,9 @@ export function UploadArea() {
               <File className="h-4 w-4 sm:h-5 sm:w-5 text-foreground" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs sm:text-sm font-medium truncate">{uploadedFile.name}</p>
+              <p className="text-xs sm:text-sm font-medium truncate">
+                {uploadedFile.name}
+              </p>
               <p className="text-xs text-muted-foreground">
                 {(uploadedFile.size / (1024 * 1024)).toFixed(2)} MB
               </p>
@@ -270,7 +281,12 @@ export function UploadArea() {
 
             <div className="flex items-center gap-2 w-full sm:w-auto">
               {uploadStatus === "error" && (
-                <Button onClick={resetUpload} variant="outline" size="sm" className="w-full sm:w-auto min-h-[44px] sm:min-h-[36px]">
+                <Button
+                  onClick={resetUpload}
+                  variant="outline"
+                  size="sm"
+                  className="w-full sm:w-auto min-h-[44px] sm:min-h-[36px]"
+                >
                   Try Again
                 </Button>
               )}
