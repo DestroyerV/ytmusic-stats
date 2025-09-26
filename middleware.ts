@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   const isAuthPath = authPaths.some((path) => pathname.startsWith(path));
 
   // Get the session cookie
-  const sessionCookie = request.cookies.get("better-auth.session_token");
+  const sessionCookie = request.cookies.get("__Secure-better-auth.session_token");
 
   // If it's a protected path and no session, redirect to signin
   if (isProtectedPath && !sessionCookie) {
