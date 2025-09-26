@@ -17,9 +17,9 @@ const containerVariants: Variants = {
     opacity: 1,
     transition: {
       delayChildren: 0.2,
-      staggerChildren: 0.1
-    }
-  }
+      staggerChildren: 0.1,
+    },
+  },
 };
 
 const itemVariants: Variants = {
@@ -28,9 +28,9 @@ const itemVariants: Variants = {
     y: 0,
     opacity: 1,
     transition: {
-      duration: 0.6
-    }
-  }
+      duration: 0.6,
+    },
+  },
 };
 
 interface UploadContentProps {
@@ -39,12 +39,11 @@ interface UploadContentProps {
 
 export function UploadContent({ userName }: UploadContentProps) {
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-    >
-      <motion.div className="mb-6 sm:mb-8 space-y-3 sm:space-y-4" variants={itemVariants}>
+    <motion.div initial="hidden" animate="visible" variants={containerVariants}>
+      <motion.div
+        className="mb-6 sm:mb-8 space-y-3 sm:space-y-4"
+        variants={itemVariants}
+      >
         <div className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-3 sm:mb-4">
             <div className="h-6 sm:h-8 w-1 bg-foreground rounded-full" />
@@ -53,9 +52,9 @@ export function UploadContent({ userName }: UploadContentProps) {
             </h1>
           </div>
           <p className="text-muted-foreground text-base sm:text-lg max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
-            Transform your Google Takeout data into beautiful analytics.
-            Upload your YouTube Music listening history to discover patterns,
-            insights, and your musical journey.
+            Transform your Google Takeout data into beautiful analytics. Upload
+            your YouTube Music listening history to discover patterns, insights,
+            and your musical journey.
           </p>
           {userName && (
             <p className="text-xs sm:text-sm text-muted-foreground/80 mt-2 sm:mt-3">
@@ -65,7 +64,10 @@ export function UploadContent({ userName }: UploadContentProps) {
         </div>
       </motion.div>
 
-      <motion.div className="max-w-3xl mx-auto space-y-4 sm:space-y-6 px-4 sm:px-0" variants={itemVariants}>
+      <motion.div
+        className="max-w-3xl mx-auto space-y-4 sm:space-y-6 px-4 sm:px-0"
+        variants={itemVariants}
+      >
         {/* Upload New Data */}
         <Card className="border-dashed border-2 hover:shadow-md transition-all duration-300">
           <CardContent className="p-4 sm:p-6">
@@ -74,10 +76,12 @@ export function UploadContent({ userName }: UploadContentProps) {
                 <Info className="h-3 w-3 sm:h-4 sm:w-4 text-foreground" />
               </div>
               <div>
-                <p className="font-medium mb-1 text-sm sm:text-base">Data Replacement Policy</p>
+                <p className="font-medium mb-1 text-sm sm:text-base">
+                  Data Replacement Policy
+                </p>
                 <p className="text-xs sm:text-sm text-muted-foreground">
-                  New uploads automatically replace existing data to ensure
-                  you always see your most current statistics.
+                  New uploads automatically replace existing data to ensure you
+                  always see your most current statistics.
                 </p>
               </div>
             </div>
@@ -87,9 +91,14 @@ export function UploadContent({ userName }: UploadContentProps) {
       </motion.div>
 
       {/* Instructions */}
-      <motion.div className="mt-8 sm:mt-12 max-w-4xl mx-auto px-4 sm:px-0" variants={itemVariants}>
+      <motion.div
+        className="mt-8 sm:mt-12 max-w-4xl mx-auto px-4 sm:px-0"
+        variants={itemVariants}
+      >
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-xl sm:text-2xl font-bold mb-2">How to Get Your Data</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-2">
+            How to Get Your Data
+          </h2>
           <p className="text-sm sm:text-base text-muted-foreground">
             Follow these simple steps to download your YouTube Music history
             from Google
@@ -101,31 +110,35 @@ export function UploadContent({ userName }: UploadContentProps) {
             {
               step: "1",
               title: "Visit Google Takeout",
-              description: "Go to takeout.google.com and sign in with your Google account",
+              description:
+                "Go to takeout.google.com and sign in with your Google account",
               link: "takeout.google.com ↗",
-              url: "https://takeout.google.com"
+              url: "https://takeout.google.com",
             },
             {
               step: "2",
               title: "Select YouTube Data",
-              description: "Choose 'YouTube and YouTube Music' from the list of products to export",
+              description:
+                "Choose 'YouTube and YouTube Music' from the list of products to export",
               link: null,
-              url: null
+              url: null,
             },
             {
               step: "3",
               title: "Choose Format",
-              description: "Select JSON format and create your export. This may take some time.",
+              description:
+                "Select JSON format and create your export. This may take some time.",
               link: null,
-              url: null
+              url: null,
             },
             {
               step: "4",
               title: "Download & Upload",
-              description: "Once ready, download the files and upload the watch-history.json here",
+              description:
+                "Once ready, download the files and upload the watch-history.json here",
               link: null,
-              url: null
-            }
+              url: null,
+            },
           ].map((step, index) => (
             <motion.div
               key={step.step}
@@ -136,17 +149,21 @@ export function UploadContent({ userName }: UploadContentProps) {
                   opacity: 1,
                   transition: {
                     duration: 0.6,
-                    delay: index * 0.1
-                  }
-                }
+                    delay: index * 0.1,
+                  },
+                },
               }}
             >
               <Card className="text-center hover:shadow-md transition-all duration-300 group h-full">
                 <CardContent className="p-4 sm:p-6">
                   <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-muted mx-auto mb-3 sm:mb-4 flex items-center justify-center group-hover:bg-muted/80 transition-colors">
-                    <span className="text-lg sm:text-xl font-bold text-foreground">{step.step}</span>
+                    <span className="text-lg sm:text-xl font-bold text-foreground">
+                      {step.step}
+                    </span>
                   </div>
-                  <h3 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base">{step.title}</h3>
+                  <h3 className="font-semibold mb-2 sm:mb-3 text-sm sm:text-base">
+                    {step.title}
+                  </h3>
                   <p className="text-xs sm:text-sm text-muted-foreground mb-3 sm:mb-4">
                     {step.description}
                   </p>
@@ -168,7 +185,10 @@ export function UploadContent({ userName }: UploadContentProps) {
       </motion.div>
 
       {/* Pro Tips */}
-      <motion.div className="mt-8 sm:mt-12 px-4 sm:px-0" variants={itemVariants}>
+      <motion.div
+        className="mt-8 sm:mt-12 px-4 sm:px-0"
+        variants={itemVariants}
+      >
         <Card className="bg-muted/30">
           <CardHeader className="p-4 sm:p-6">
             <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
@@ -182,15 +202,22 @@ export function UploadContent({ userName }: UploadContentProps) {
           <CardContent className="p-4 sm:p-6">
             <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
               <div className="space-y-2">
-                <h4 className="font-medium text-sm sm:text-base">📁 File Requirements</h4>
+                <h4 className="font-medium text-sm sm:text-base">
+                  📁 File Requirements
+                </h4>
                 <ul className="text-xs sm:text-sm text-muted-foreground space-y-1">
-                  <li>• Upload the 'watch-history.json' file from your Google Takeout</li>
+                  <li>
+                    • Upload the 'watch-history.json' file from your Google
+                    Takeout
+                  </li>
                   <li>• File should be in JSON format (not HTML)</li>
                   <li>• Maximum file size: 100MB</li>
                 </ul>
               </div>
               <div className="space-y-2">
-                <h4 className="font-medium text-sm sm:text-base">🎵 Data Quality</h4>
+                <h4 className="font-medium text-sm sm:text-base">
+                  🎵 Data Quality
+                </h4>
                 <ul className="text-xs sm:text-sm text-muted-foreground space-y-1">
                   <li>• More listening history = better insights</li>
                   <li>• Include at least 3 months of data for trends</li>
@@ -198,7 +225,9 @@ export function UploadContent({ userName }: UploadContentProps) {
                 </ul>
               </div>
               <div className="space-y-2">
-                <h4 className="font-medium text-sm sm:text-base">🔒 Privacy & Security</h4>
+                <h4 className="font-medium text-sm sm:text-base">
+                  🔒 Privacy & Security
+                </h4>
                 <ul className="text-xs sm:text-sm text-muted-foreground space-y-1">
                   <li>• Your data is processed securely</li>
                   <li>• No personal information is stored</li>
@@ -206,7 +235,9 @@ export function UploadContent({ userName }: UploadContentProps) {
                 </ul>
               </div>
               <div className="space-y-2">
-                <h4 className="font-medium text-sm sm:text-base">📊 What You'll Get</h4>
+                <h4 className="font-medium text-sm sm:text-base">
+                  📊 What You'll Get
+                </h4>
                 <ul className="text-xs sm:text-sm text-muted-foreground space-y-1">
                   <li>• Top artists and songs</li>
                   <li>• Listening patterns and trends</li>

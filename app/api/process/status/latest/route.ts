@@ -21,7 +21,7 @@ import {
  * @throws {500} When an internal server error occurs
  */
 export async function GET(
-  request: NextRequest
+  request: NextRequest,
 ): Promise<NextResponse<ProcessingStatusResponse | ErrorResponse>> {
   try {
     const session = await auth.api.getSession({
@@ -43,7 +43,7 @@ export async function GET(
         progress: 1,
         errorMessage: 1,
         uploadedAt: 1,
-      }
+      },
     ).sort({ uploadedAt: -1 });
 
     if (!latestProcess) {

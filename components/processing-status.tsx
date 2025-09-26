@@ -132,7 +132,9 @@ export function ProcessingStatus({
         <CardContent className="p-4 sm:p-6">
           <div className="flex items-center justify-center space-x-2">
             <Loader2 className="h-5 w-5 animate-spin" />
-            <span className="text-sm sm:text-base">Loading processing status...</span>
+            <span className="text-sm sm:text-base">
+              Loading processing status...
+            </span>
           </div>
         </CardContent>
       </Card>
@@ -147,9 +149,14 @@ export function ProcessingStatus({
         <div className="flex items-center justify-between flex-wrap gap-2">
           <CardTitle className="flex items-center space-x-2 text-lg sm:text-xl">
             <Music className="h-4 w-4 sm:h-5 sm:w-5" />
-            <span className="text-sm sm:text-base md:text-lg">Processing Your Music History</span>
+            <span className="text-sm sm:text-base md:text-lg">
+              Processing Your Music History
+            </span>
           </CardTitle>
-          <Badge variant={getStatusVariant(status.status)} className="text-xs sm:text-sm">
+          <Badge
+            variant={getStatusVariant(status.status)}
+            className="text-xs sm:text-sm"
+          >
             {status.status.charAt(0).toUpperCase() + status.status.slice(1)}
           </Badge>
         </div>
@@ -230,9 +237,13 @@ export function ProcessingStatus({
           <div className="p-3 sm:p-4 bg-red-50 border border-red-200 rounded-lg">
             <div className="flex items-center space-x-2 text-red-800">
               <XCircle className="h-4 w-4 flex-shrink-0" />
-              <span className="font-medium text-sm sm:text-base">Processing Failed</span>
+              <span className="font-medium text-sm sm:text-base">
+                Processing Failed
+              </span>
             </div>
-            <p className="text-xs sm:text-sm text-red-700 mt-1 break-words">{status.errorMessage}</p>
+            <p className="text-xs sm:text-sm text-red-700 mt-1 break-words">
+              {status.errorMessage}
+            </p>
           </div>
         )}
 
@@ -242,7 +253,9 @@ export function ProcessingStatus({
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0">
               <div className="flex items-center space-x-2 text-green-800">
                 <CheckCircle className="h-4 w-4 flex-shrink-0" />
-                <span className="font-medium text-sm sm:text-base">Processing Complete!</span>
+                <span className="font-medium text-sm sm:text-base">
+                  Processing Complete!
+                </span>
               </div>
               <Button
                 onClick={() => (window.location.href = "/dashboard")}

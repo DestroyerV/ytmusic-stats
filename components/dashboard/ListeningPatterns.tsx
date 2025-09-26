@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { 
-  TrendingUp, 
-  Clock, 
+import {
+  TrendingUp,
+  Clock,
   Calendar,
   Headphones,
   Music,
-  BarChart3
+  BarChart3,
 } from "lucide-react";
 
 interface ListeningPatternsProps {
@@ -31,7 +31,9 @@ export function ListeningPatterns({ stats }: ListeningPatternsProps) {
             <BarChart3 className="h-5 w-5" />
             Listening Patterns
           </CardTitle>
-          <CardDescription>Analyze your music consumption habits</CardDescription>
+          <CardDescription>
+            Analyze your music consumption habits
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8 text-muted-foreground">
@@ -60,9 +62,10 @@ export function ListeningPatterns({ stats }: ListeningPatternsProps) {
   };
 
   // Calculate some interesting patterns
-  const averageSessionLength = stats.totalPlaytime / stats.totalListens * 60; // in seconds
+  const averageSessionLength = (stats.totalPlaytime / stats.totalListens) * 60; // in seconds
   const varietyScore = (stats.totalSongs / stats.totalListens) * 100;
-  const repeatRate = ((stats.totalListens - stats.totalSongs) / stats.totalListens) * 100;
+  const repeatRate =
+    ((stats.totalListens - stats.totalSongs) / stats.totalListens) * 100;
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
@@ -100,7 +103,9 @@ export function ListeningPatterns({ stats }: ListeningPatternsProps) {
           <div className="space-y-3">
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium">Average Session</span>
-              <Badge variant="secondary">{formatDuration(averageSessionLength)}</Badge>
+              <Badge variant="secondary">
+                {formatDuration(averageSessionLength)}
+              </Badge>
             </div>
             <p className="text-xs text-muted-foreground">
               Average length of continuous listening
@@ -120,11 +125,15 @@ export function ListeningPatterns({ stats }: ListeningPatternsProps) {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="text-center p-3 bg-muted/50 rounded-lg">
-              <div className="text-lg font-bold">{formatDuration(stats.dailyAveragePlaytime)}</div>
+              <div className="text-lg font-bold">
+                {formatDuration(stats.dailyAveragePlaytime)}
+              </div>
               <p className="text-xs text-muted-foreground">Daily Average</p>
             </div>
             <div className="text-center p-3 bg-muted/50 rounded-lg">
-              <div className="text-lg font-bold">{formatNumber(Math.round(stats.dailyAverageListens))}</div>
+              <div className="text-lg font-bold">
+                {formatNumber(Math.round(stats.dailyAverageListens))}
+              </div>
               <p className="text-xs text-muted-foreground">Songs/Day</p>
             </div>
           </div>

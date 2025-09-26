@@ -66,10 +66,10 @@ export function TopArtists({ stats }: TopArtistsProps) {
                   index === 0
                     ? "bg-foreground text-background"
                     : index === 1
-                    ? "bg-muted-foreground text-background"
-                    : index === 2
-                    ? "bg-muted-foreground/80 text-background"
-                    : "bg-muted text-foreground"
+                      ? "bg-muted-foreground text-background"
+                      : index === 2
+                        ? "bg-muted-foreground/80 text-background"
+                        : "bg-muted text-foreground"
                 }`}
               >
                 {index + 1}
@@ -81,10 +81,10 @@ export function TopArtists({ stats }: TopArtistsProps) {
                     index === 0
                       ? "bg-foreground text-background"
                       : index === 1
-                      ? "bg-muted-foreground text-background"
-                      : index === 2
-                      ? "bg-muted-foreground/80 text-background"
-                      : "bg-muted text-foreground"
+                        ? "bg-muted-foreground text-background"
+                        : index === 2
+                          ? "bg-muted-foreground/80 text-background"
+                          : "bg-muted text-foreground"
                   }`}
                 >
                   {getArtistInitials(artist.name)}

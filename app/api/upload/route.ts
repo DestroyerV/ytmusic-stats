@@ -10,9 +10,8 @@ import { NextRequest, NextResponse } from "next/server";
 async function cleanupUserData(userId: string) {
   try {
     // Get all existing music histories for this user
-    const existingHistories = await UserStatsService.getUserMusicHistories(
-      userId
-    );
+    const existingHistories =
+      await UserStatsService.getUserMusicHistories(userId);
 
     if (existingHistories.length > 0) {
       // Delete all history entries for these histories
@@ -32,7 +31,7 @@ async function cleanupUserData(userId: string) {
       await UserStats.deleteOne({ userId });
 
       console.log(
-        `Cleaned up existing data for user ${userId}: ${existingHistories.length} histories`
+        `Cleaned up existing data for user ${userId}: ${existingHistories.length} histories`,
       );
     }
   } catch (error) {
@@ -61,7 +60,7 @@ function validateFile(file: File): string | null {
 
   if (!isWatchHistory) {
     console.warn(
-      "Filename check: Make sure this is your watch-history.json file from Google Takeout."
+      "Filename check: Make sure this is your watch-history.json file from Google Takeout.",
     );
   }
 
@@ -76,7 +75,7 @@ export async function POST(request: NextRequest) {
   if (!session?.user?.id) {
     return NextResponse.json(
       { success: false, error: "Unauthorized" },
-      { status: 401 }
+      { status: 401 },
     );
   }
 
@@ -86,7 +85,7 @@ export async function POST(request: NextRequest) {
   if (!file) {
     return NextResponse.json(
       { success: false, error: "No file uploaded" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -95,7 +94,7 @@ export async function POST(request: NextRequest) {
   if (validationError) {
     return NextResponse.json(
       { success: false, error: validationError },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -113,7 +112,7 @@ export async function POST(request: NextRequest) {
         error:
           "Invalid JSON file. Please ensure the file is a valid JSON from Google Takeout.",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -125,7 +124,7 @@ export async function POST(request: NextRequest) {
         error:
           "Invalid file format. Expected an array of watch history entries.",
       },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -139,7 +138,7 @@ export async function POST(request: NextRequest) {
           error:
             "Invalid watch history format. This doesn't appear to be a YouTube watch history file.",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
   }
@@ -160,10 +159,9 @@ export async function POST(request: NextRequest) {
 
   await UserStatsService.addMusicHistory(
     session.user.id,
-    musicHistory._id.toString()
+    musicHistory._id.toString(),
   );
 
-  
   // Trigger Inngest function to process the uploaded file
   await inngest.send({
     name: "process/music-history",
@@ -174,7 +172,7 @@ export async function POST(request: NextRequest) {
       fileSize: file.size,
     },
   });
-  
+
   return NextResponse.json({
     success: true,
     data: {

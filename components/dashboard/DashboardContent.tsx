@@ -352,7 +352,7 @@ export function DashboardContent({ userId }: DashboardContentProps) {
                       </span>
                       <span className="text-sm text-muted-foreground">
                         {new Date(
-                          stats.data.firstPlayDate
+                          stats.data.firstPlayDate,
                         ).toLocaleDateString()}
                       </span>
                     </div>
@@ -402,7 +402,7 @@ export function DashboardContent({ userId }: DashboardContentProps) {
                               <>
                                 {Math.floor(stats.data.averageSongLength / 60)}:
                                 {String(
-                                  Math.floor(stats.data.averageSongLength % 60)
+                                  Math.floor(stats.data.averageSongLength % 60),
                                 ).padStart(2, "0")}
                               </>
                             ) : (
@@ -438,7 +438,7 @@ export function DashboardContent({ userId }: DashboardContentProps) {
                               <>
                                 {Math.round(
                                   stats.data.totalListens /
-                                    stats.data.totalArtists
+                                    stats.data.totalArtists,
                                 )}{" "}
                                 listens per artist
                               </>

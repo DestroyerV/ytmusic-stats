@@ -39,9 +39,7 @@ export default function RootLayout({
               </div>
             </div>
             {/* Main Content - Full screen with beam background */}
-            <main className="relative z-10 min-h-screen">
-              {children}
-            </main>
+            <main className="relative z-10 min-h-screen">{children}</main>
           </div>
         </Providers>
       </body>

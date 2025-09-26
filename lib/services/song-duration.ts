@@ -81,7 +81,7 @@ export class SongDurationService {
    */
   private static estimateFromTitlePatterns(
     title: string,
-    patterns?: any
+    patterns?: any,
   ): { duration: number; method: string; confidence: number } {
     const lowerTitle = title.toLowerCase();
 
@@ -241,7 +241,7 @@ export class SongDurationService {
     duration: number,
     method: string,
     confidence: number,
-    youtubeId?: string
+    youtubeId?: string,
   ) {
     try {
       const updateData: any = {
@@ -259,11 +259,9 @@ export class SongDurationService {
         updateData.youtubeId = youtubeId;
       }
 
-      await Song.findOneAndUpdate(
-        { key: songKey },
-        updateData,
-        { upsert: true }
-      );
+      await Song.findOneAndUpdate({ key: songKey }, updateData, {
+        upsert: true,
+      });
     } catch (error) {
       console.error("Error caching song duration:", error);
     }
@@ -278,7 +276,7 @@ export class SongDurationService {
       title: string;
       youtubeId?: string;
       context?: DurationEstimationContext;
-    }>
+    }>,
   ): Promise<
     Array<{
       artist: string;
@@ -319,14 +317,13 @@ export class SongDurationService {
 
     // Step 2: Batch process YouTube API calls for uncached songs with YouTube IDs
     const songsWithYouTubeIds = uncachedSongs.filter(
-      ({ song }) => song.youtubeId
+      ({ song }) => song.youtubeId,
     );
 
     if (songsWithYouTubeIds.length > 0) {
       const videoIds = songsWithYouTubeIds.map(({ song }) => song.youtubeId!);
-      const youtubeResults = await YouTubeService.batchGetVideoMetadataBulk(
-        videoIds
-      );
+      const youtubeResults =
+        await YouTubeService.batchGetVideoMetadataBulk(videoIds);
 
       // Process YouTube results
       for (const { index, song } of songsWithYouTubeIds) {
@@ -342,7 +339,7 @@ export class SongDurationService {
             youtubeData.duration,
             "youtube-api",
             youtubeData.confidence,
-            song.youtubeId
+            song.youtubeId,
           );
 
           results[index] = {
@@ -362,7 +359,7 @@ export class SongDurationService {
         // Use existing fallback logic for songs without YouTube data
         const patternEstimate = this.estimateFromTitlePatterns(
           song.title,
-          song.context?.titlePatterns
+          song.context?.titlePatterns,
         );
         if (patternEstimate.confidence > 0.7) {
           const normalizedKey = this.createSongKey(song.artist, song.title);
@@ -373,7 +370,7 @@ export class SongDurationService {
             patternEstimate.duration,
             "title-pattern",
             patternEstimate.confidence,
-            song.youtubeId
+            song.youtubeId,
           );
           results[index] = {
             artist: song.artist,
@@ -394,7 +391,7 @@ export class SongDurationService {
             genreEstimate.duration,
             "genre-default",
             genreEstimate.confidence,
-            song.youtubeId
+            song.youtubeId,
           );
           results[index] = {
             artist: song.artist,
@@ -418,7 +415,7 @@ export class SongDurationService {
           globalEstimate.duration,
           "global-average",
           globalEstimate.confidence,
-          song.youtubeId
+          song.youtubeId,
         );
         results[index] = {
           artist: song.artist,
@@ -445,7 +442,7 @@ export class SongDurationService {
       channelTitle?: string;
       categoryId?: string;
       viewCount?: number;
-    }
+    },
   ) {
     const songKey = this.createSongKey(artist, title);
 
@@ -474,7 +471,7 @@ export class SongDurationService {
           }),
           updatedAt: new Date(),
         },
-        { upsert: true }
+        { upsert: true },
       );
     } catch (error) {
       console.error("Error updating song with API data:", error);

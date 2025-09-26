@@ -1,6 +1,6 @@
 import { Inngest } from "inngest";
 
-export const inngest = new Inngest({ 
+export const inngest = new Inngest({
   id: "ytmusic-stats",
   name: "YouTube Music Stats",
   // Add event and signing keys if available in production
@@ -22,14 +22,14 @@ export type Events = {
       fileSize: number;
     };
   };
-  
+
   "enrich/song-data": {
     data: {
       songKeys: string[];
       priority?: "high" | "low";
     };
   };
-  
+
   "generate/user-stats": {
     data: {
       userId: string;

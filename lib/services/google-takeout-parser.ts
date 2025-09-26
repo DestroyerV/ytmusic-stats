@@ -8,7 +8,7 @@ import { GoogleTakeoutEntry, ParsedSongInfo } from "@/lib/types/database";
  */
 export class GoogleTakeoutParser {
   private static readonly MAX_ERRORS = 100;
-  
+
   /**
    * Standard parsing for all files
    */
@@ -119,7 +119,7 @@ export class GoogleTakeoutParser {
    * Parse individual song entry
    */
   private static parseSongEntry(
-    entry: GoogleTakeoutEntry
+    entry: GoogleTakeoutEntry,
   ): ParsedSongInfo | null {
     try {
       const songInfo = this.extractSongInfo(entry);
@@ -186,9 +186,9 @@ export class GoogleTakeoutParser {
       const artistPattern = new RegExp(
         `^${artistFromSubtitles.replace(
           /[.*+?^${}()|[\]\\]/g,
-          "\\$&"
+          "\\$&",
         )}\\s*[-–—·•:]?\\s*`,
-        "i"
+        "i",
       );
       if (artistPattern.test(cleanTitle)) {
         songTitle = cleanTitle.replace(artistPattern, "").trim();

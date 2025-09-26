@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { signOut } from '@/lib/auth/client';
-import { LogOut } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { Button } from "@/components/ui/button";
+import { signOut } from "@/lib/auth/client";
+import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function SignOutButton() {
   const router = useRouter();
@@ -11,9 +11,9 @@ export function SignOutButton() {
   const handleSignOut = async () => {
     try {
       await signOut();
-      router.push('/auth/signin');
+      router.push("/auth/signin");
     } catch (error) {
-      console.error('Sign out error:', error);
+      console.error("Sign out error:", error);
     }
   };
 

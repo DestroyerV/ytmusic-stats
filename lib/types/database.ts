@@ -51,14 +51,19 @@ export interface IMusicHistory {
   fileName: string;
   fileSize: number;
   fileContent?: string; // Store the actual file content for processing
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: "pending" | "processing" | "completed" | "failed";
   uploadedAt: Date;
   processedAt?: Date;
   totalEntries?: number;
   processedEntries?: number;
   errorMessage?: string;
   progress?: number; // 0-100
-  processingStage?: 'parsing' | 'extracting' | 'processing' | 'generating-stats' | 'completed';
+  processingStage?:
+    | "parsing"
+    | "extracting"
+    | "processing"
+    | "generating-stats"
+    | "completed";
 }
 
 export interface IHistoryEntry {
@@ -84,7 +89,11 @@ export interface ISong {
   categoryId?: string;
   viewCount?: number;
   genres: string[];
-  estimationMethod: 'youtube-api' | 'title-pattern' | 'genre-default' | 'global-average';
+  estimationMethod:
+    | "youtube-api"
+    | "title-pattern"
+    | "genre-default"
+    | "global-average";
   confidence: number; // 0-1, how confident we are in the duration
   createdAt: Date;
   updatedAt: Date;
@@ -150,9 +159,9 @@ export interface ParsedSongInfo {
 // Processing status for real-time updates
 export interface ProcessingStatus {
   historyId: string;
-  status: IMusicHistory['status'];
+  status: IMusicHistory["status"];
   progress: number;
-  stage: IMusicHistory['processingStage'];
+  stage: IMusicHistory["processingStage"];
   currentEntry?: number;
   totalEntries?: number;
   errorMessage?: string;
@@ -184,7 +193,7 @@ export interface ApiResponse<T = any> {
 
 export interface ProcessingStatusResponse {
   processId: string;
-  status: IMusicHistory['status'];
+  status: IMusicHistory["status"];
   progress: number;
   error?: string;
   createdAt: Date;

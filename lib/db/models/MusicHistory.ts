@@ -1,5 +1,5 @@
-import mongoose, { Schema, model, models } from 'mongoose';
-import { IMusicHistory } from '../../types/database';
+import mongoose, { Schema, model, models } from "mongoose";
+import { IMusicHistory } from "../../types/database";
 
 const MusicHistorySchema = new Schema<IMusicHistory>({
   userId: {
@@ -21,8 +21,8 @@ const MusicHistorySchema = new Schema<IMusicHistory>({
   },
   status: {
     type: String,
-    enum: ['pending', 'processing', 'completed', 'failed'],
-    default: 'pending',
+    enum: ["pending", "processing", "completed", "failed"],
+    default: "pending",
   },
   uploadedAt: {
     type: Date,
@@ -49,7 +49,13 @@ const MusicHistorySchema = new Schema<IMusicHistory>({
   },
   processingStage: {
     type: String,
-    enum: ['parsing', 'extracting', 'processing', 'generating-stats', 'completed'],
+    enum: [
+      "parsing",
+      "extracting",
+      "processing",
+      "generating-stats",
+      "completed",
+    ],
   },
 });
 
@@ -58,4 +64,6 @@ MusicHistorySchema.index({ status: 1 });
 MusicHistorySchema.index({ uploadedAt: -1 });
 MusicHistorySchema.index({ userId: 1, uploadedAt: -1 });
 
-export const MusicHistory = models.MusicHistory || model<IMusicHistory>('MusicHistory', MusicHistorySchema);
+export const MusicHistory =
+  models.MusicHistory ||
+  model<IMusicHistory>("MusicHistory", MusicHistorySchema);

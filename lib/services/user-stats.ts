@@ -47,7 +47,7 @@ export class UserStatsService {
    */
   static async updateUserStats(
     userId: string,
-    stats: IUserStats
+    stats: IUserStats,
   ): Promise<void> {
     await connectDB();
 
@@ -58,7 +58,7 @@ export class UserStatsService {
         ...stats,
         lastUpdated: new Date(),
       },
-      { upsert: true, new: true }
+      { upsert: true, new: true },
     );
   }
 
@@ -80,14 +80,14 @@ export class UserStatsService {
    */
   static async addMusicHistory(
     userId: string,
-    musicHistoryId: string
+    musicHistoryId: string,
   ): Promise<void> {
     await connectDB();
 
     await UserMusicHistories.findOneAndUpdate(
       { userId, musicHistoryId },
       { userId, musicHistoryId },
-      { upsert: true }
+      { upsert: true },
     );
   }
 
@@ -96,7 +96,7 @@ export class UserStatsService {
    */
   static async removeMusicHistory(
     userId: string,
-    musicHistoryId: string
+    musicHistoryId: string,
   ): Promise<void> {
     await connectDB();
 

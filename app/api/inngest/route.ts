@@ -1,9 +1,9 @@
 import { serve } from "inngest/next";
 import { inngest } from "@/lib/inngest/client";
-import { 
-  processMusicHistory, 
-  generateUserStats, 
-  enrichSongData, 
+import {
+  processMusicHistory,
+  generateUserStats,
+  enrichSongData,
   cleanupOldFiles,
 } from "@/lib/inngest/functions";
 

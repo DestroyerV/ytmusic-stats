@@ -30,16 +30,16 @@ interface LoadingProps {
 
 const sizeVariants = {
   sm: "h-4 w-4",
-  md: "h-6 w-6", 
+  md: "h-6 w-6",
   lg: "h-8 w-8",
-  xl: "h-12 w-12"
+  xl: "h-12 w-12",
 };
 
 const iconSizeVariants = {
   sm: "h-3 w-3",
   md: "h-4 w-4",
-  lg: "h-5 w-5", 
-  xl: "h-8 w-8"
+  lg: "h-5 w-5",
+  xl: "h-8 w-8",
 };
 
 export function Loading({
@@ -48,16 +48,21 @@ export function Loading({
   showIcon = false,
   fullPage = false,
   height,
-  className
+  className,
 }: LoadingProps) {
   const content = (
-    <div className={cn("flex flex-col items-center justify-center space-y-3", className)}>
+    <div
+      className={cn(
+        "flex flex-col items-center justify-center space-y-3",
+        className,
+      )}
+    >
       <div className="relative">
         {/* Outer spinning ring */}
         <div
           className={cn(
             "animate-spin rounded-full border-2 border-muted border-t-primary",
-            sizeVariants[size]
+            sizeVariants[size],
           )}
         />
         {/* Inner music icon (optional) */}
@@ -82,7 +87,7 @@ export function Loading({
   }
 
   return (
-    <div 
+    <div
       className="flex items-center justify-center"
       style={{ height: height || "8rem" }}
     >
@@ -93,33 +98,32 @@ export function Loading({
 
 // Preset loading components for common use cases
 export function PageLoading({ text = "Loading..." }: { text?: string }) {
-  return (
-    <Loading 
-      size="lg" 
-      text={text} 
-      showIcon={true} 
-      fullPage={true}
-    />
-  );
+  return <Loading size="lg" text={text} showIcon={true} fullPage={true} />;
 }
 
-export function CardLoading({ text, height = "8rem" }: { text?: string; height?: string }) {
-  return (
-    <Loading 
-      size="md" 
-      text={text} 
-      height={height}
-    />
-  );
+export function CardLoading({
+  text,
+  height = "8rem",
+}: {
+  text?: string;
+  height?: string;
+}) {
+  return <Loading size="md" text={text} height={height} />;
 }
 
-export function InlineLoading({ text, size = "sm" }: { text?: string; size?: "sm" | "md" }) {
+export function InlineLoading({
+  text,
+  size = "sm",
+}: {
+  text?: string;
+  size?: "sm" | "md";
+}) {
   return (
     <div className="flex items-center space-x-2">
       <div
         className={cn(
           "animate-spin rounded-full border-2 border-muted border-t-primary",
-          sizeVariants[size]
+          sizeVariants[size],
         )}
       />
       {text && <span className="text-sm text-muted-foreground">{text}</span>}

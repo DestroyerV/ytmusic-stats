@@ -1,9 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+  throw new Error(
+    "Please define the MONGODB_URI environment variable inside .env.local",
+  );
 }
 
 declare global {
@@ -31,7 +33,7 @@ async function connectDB() {
 
   if (!cached.promise) {
     const opts = {
-      dbName: 'ytmusic-stats',
+      dbName: "ytmusic-stats",
       bufferCommands: false,
       maxPoolSize: 10, // Maintain up to 10 socket connections
       serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
@@ -39,10 +41,12 @@ async function connectDB() {
       family: 4, // Use IPv4, skip trying IPv6
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongooseInstance) => {
-      console.log('✅ MongoDB connected successfully');
-      return mongooseInstance;
-    });
+    cached.promise = mongoose
+      .connect(MONGODB_URI!, opts)
+      .then((mongooseInstance) => {
+        console.log("✅ MongoDB connected successfully");
+        return mongooseInstance;
+      });
   }
 
   try {

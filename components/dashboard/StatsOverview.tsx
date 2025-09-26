@@ -123,10 +123,10 @@ export function StatsOverview({ stats }: StatsOverviewProps) {
             </p>
           </CardContent>
         </Card>
-      {/* </div> */}
+        {/* </div> */}
 
-      {/* Secondary Stats */}
-      {/* <div className="grid gap-4 md:grid-cols-3"> */}
+        {/* Secondary Stats */}
+        {/* <div className="grid gap-4 md:grid-cols-3"> */}
         <Card className="hover:shadow-md hover:-translate-y-1 transition-all duration-300 group">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Longest Day</CardTitle>

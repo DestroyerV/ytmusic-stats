@@ -20,7 +20,7 @@ export default function Providers({ children }: ProvidersProps) {
             refetchOnWindowFocus: false,
           },
         },
-      })
+      }),
   );
 
   return (

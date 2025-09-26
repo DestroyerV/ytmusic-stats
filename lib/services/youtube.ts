@@ -23,7 +23,7 @@ export class YouTubeService {
     confidence: number;
   } | null> {
     console.warn(
-      "getVideoMetadata is deprecated. Use batchGetVideoMetadataBulk() for better quota efficiency."
+      "getVideoMetadata is deprecated. Use batchGetVideoMetadataBulk() for better quota efficiency.",
     );
 
     // Use the efficient batch method for single video

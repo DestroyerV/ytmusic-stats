@@ -85,7 +85,7 @@ export const processMusicHistory = inngest.createFunction(
         const startIndex = i * processingBatchSize;
         const endIndex = Math.min(
           startIndex + processingBatchSize,
-          totalEntries
+          totalEntries,
         );
         const batch = parseResult.entries.slice(startIndex, endIndex);
 
@@ -95,7 +95,7 @@ export const processMusicHistory = inngest.createFunction(
             artist: song.artist,
             title: song.title,
             youtubeId: song.youtubeId,
-          }))
+          })),
         );
 
         // Map to the required format
@@ -108,7 +108,7 @@ export const processMusicHistory = inngest.createFunction(
           youtubeId: batch[index].youtubeId,
           songKey: SongDurationService.createSongKey(
             result.artist,
-            result.title
+            result.title,
           ),
           originalTitle: batch[index].originalTitle,
         }));
@@ -197,7 +197,7 @@ export const processMusicHistory = inngest.createFunction(
       processedEntries: parseResult.entries.length,
       totalEntries: parseResult.totalEntries,
     };
-  }
+  },
 );
 
 /**
@@ -368,8 +368,8 @@ export const generateUserStats = inngest.createFunction(
                 1,
                 Math.ceil(
                   (stat.lastPlay.getTime() - stat.firstPlay.getTime()) /
-                    (1000 * 60 * 60 * 24)
-                )
+                    (1000 * 60 * 60 * 24),
+                ),
               )
             : 1;
 
@@ -418,7 +418,7 @@ export const generateUserStats = inngest.createFunction(
     });
 
     return { success: true };
-  }
+  },
 );
 
 /**
@@ -480,9 +480,8 @@ export const enrichSongData = inngest.createFunction(
       if (videoIds.length > 0) {
         try {
           // Use batch API to get metadata for multiple videos
-          const youtubeResults = await YouTubeService.batchGetVideoMetadataBulk(
-            videoIds
-          );
+          const youtubeResults =
+            await YouTubeService.batchGetVideoMetadataBulk(videoIds);
 
           // Update songs with the retrieved data
           for (const song of songsWithYouTubeData) {
@@ -500,7 +499,7 @@ export const enrichSongData = inngest.createFunction(
                   channelTitle: youtubeData.channelTitle,
                   categoryId: youtubeData.categoryId,
                   viewCount: youtubeData.viewCount,
-                }
+                },
               );
               enrichedCount++;
             }
@@ -512,7 +511,7 @@ export const enrichSongData = inngest.createFunction(
 
       return { enriched: enrichedCount };
     });
-  }
+  },
 );
 
 /**
@@ -561,5 +560,5 @@ export const cleanupOldFiles = inngest.createFunction(
         deletedEntries,
       };
     });
-  }
+  },
 );
