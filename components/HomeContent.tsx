@@ -513,7 +513,7 @@ export function HomeContent() {
             </motion.div>
           </div>
 
-          {/* <motion.div
+          <motion.div
             className="mt-12 p-6 bg-background/50 rounded-lg border"
             variants={itemVariants}
           >
@@ -540,7 +540,7 @@ export function HomeContent() {
                 </Link>
               </Button>
             </div>
-          </motion.div> */}
+          </motion.div>
         </div>
       </motion.section>
 
@@ -558,7 +558,7 @@ export function HomeContent() {
                 Transform your YouTube Music listening history into meaningful
                 insights. Discover your musical journey through data analytics.
               </p>
-              {/* <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Heart className="h-4 w-4 text-red-500" />
                 <span>Made with love by</span>
                 <Link
@@ -569,7 +569,7 @@ export function HomeContent() {
                 >
                   Vaibhav Mishra
                 </Link>
-              </div> */}
+              </div>
             </div>
 
             {/* Quick Links */}
@@ -625,7 +625,7 @@ export function HomeContent() {
                     Google Takeout
                   </Link>
                 </li>
-                {/* <li>
+                <li>
                   <Link
                     href="https://github.com/DestroyerV/ytmusic-stats"
                     target="_blank"
@@ -635,7 +635,7 @@ export function HomeContent() {
                     <Github className="h-3 w-3 mr-1" />
                     Source Code
                   </Link>
-                </li> */}
+                </li>
               </ul>
             </div>
           </div>
@@ -651,7 +651,7 @@ export function HomeContent() {
             </div>
 
             {/* Social Links */}
-            {/* <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4">
               <Link
                 href="https://github.com/DestroyerV"
                 target="_blank"
@@ -676,7 +676,7 @@ export function HomeContent() {
               >
                 <Linkedin className="h-5 w-5" />
               </Link>
-            </div> */}
+            </div>
           </div>
         </div>
       </footer>
