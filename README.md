@@ -1,4 +1,4 @@
-oyer# 🎵 YouTube Music Stats
+# 🎵 YouTube Music Stats
 
 A comprehensive web application that analyzes your YouTube Music listening history to provide detailed insights into your music consumption patterns, favorite artists, top songs, and listening behaviors over time.
 
