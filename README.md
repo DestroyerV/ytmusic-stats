@@ -1,4 +1,4 @@
-# 🎵 YouTube Music Stats
+oyer# 🎵 YouTube Music Stats
 
 A comprehensive web application that analyzes your YouTube Music listening history to provide detailed insights into your music consumption patterns, favorite artists, top songs, and listening behaviors over time.
 
@@ -54,7 +54,7 @@ A comprehensive web application that analyzes your YouTube Music listening histo
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/ytmusic-stats.git
+   git clone https://github.com/DestroyerV/ytmusic-stats.git
    cd ytmusic-stats
    ```
 
