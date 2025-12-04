@@ -1,5 +1,23 @@
 "use client";
 
+import {
+  BarChart,
+  BarChart3,
+  CheckCircle,
+  Code,
+  Download,
+  FileText,
+  Github,
+  Heart,
+  Linkedin,
+  Music,
+  TrendingUp,
+  Twitter,
+  Upload,
+} from "lucide-react";
+import { motion, type Variants } from "motion/react";
+import Link from "next/link";
+import Beams from "@/components/Beams";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,25 +26,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Music,
-  BarChart3,
-  TrendingUp,
-  Download,
-  Upload,
-  BarChart,
-  FileText,
-  CheckCircle,
-  Github,
-  Twitter,
-  Linkedin,
-  Heart,
-  Code,
-  Home,
-} from "lucide-react";
-import Link from "next/link";
-import Beams from "@/components/Beams";
-import { motion, type Variants } from "motion/react";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -329,7 +328,7 @@ export function HomeContent() {
                 </p>
                 <div className="space-y-3">
                   <div className="flex items-start space-x-3">
-                    <div className="h-2 w-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                    <div className="h-2 w-2 rounded-full bg-primary mt-2 shrink-0"></div>
                     <div>
                       <p className="font-medium">Parse & Clean Your Data</p>
                       <p className="text-sm text-muted-foreground">
@@ -339,7 +338,7 @@ export function HomeContent() {
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="h-2 w-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                    <div className="h-2 w-2 rounded-full bg-primary mt-2 shrink-0"></div>
                     <div>
                       <p className="font-medium">Enrich with YouTube API</p>
                       <p className="text-sm text-muted-foreground">
@@ -348,7 +347,7 @@ export function HomeContent() {
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
-                    <div className="h-2 w-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
+                    <div className="h-2 w-2 rounded-full bg-primary mt-2 shrink-0"></div>
                     <div>
                       <p className="font-medium">Generate Your Statistics</p>
                       <p className="text-sm text-muted-foreground">
@@ -477,7 +476,9 @@ export function HomeContent() {
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      aria-labelledby="lock-icon-title"
                     >
+                      <title id="lock-icon-title">Privacy lock icon</title>
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"

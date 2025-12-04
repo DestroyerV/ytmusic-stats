@@ -1,5 +1,5 @@
-import mongoose, { Schema, model, models } from "mongoose";
-import { IUserStats } from "../../types/database";
+import { model, models, Schema } from "mongoose";
+import type { IUserStats } from "../../types/database";
 
 const UserStatsSchema = new Schema<IUserStats & { userId: string }>(
   {
@@ -27,11 +27,16 @@ const UserStatsSchema = new Schema<IUserStats & { userId: string }>(
     longestSession: { type: Number, default: 0 },
     topSongs: [
       {
+        key: { type: String, required: true },
         title: { type: String, required: true },
         artist: { type: String, required: true },
+        channelTitle: { type: String },
+        youtubeId: { type: String },
+        duration: { type: Number, default: 0 },
         playCount: { type: Number, required: true },
         totalDuration: { type: Number, required: true },
-        songKey: { type: String, required: true },
+        thumbnail: { type: String },
+        artistImage: { type: String },
       },
     ],
     topArtists: [
@@ -40,18 +45,38 @@ const UserStatsSchema = new Schema<IUserStats & { userId: string }>(
         playCount: { type: Number, required: true },
         totalDuration: { type: Number, required: true },
         uniqueSongs: { type: Number, required: true },
+        artistImage: { type: String },
       },
     ],
     newArtistsThisMonth: { type: Number, default: 0 },
     totalNewArtists: { type: Number, default: 0 },
+    // Song Age statistics (Spotify Wrapped style)
+    listeningAge: { type: Number },
+    averageReleaseYear: { type: Number },
+    musicEra: { type: String },
+    decadeDistribution: [
+      {
+        decade: { type: String, required: true },
+        count: { type: Number, required: true },
+        percentage: { type: Number, required: true },
+      },
+    ],
+    oldestSong: {
+      title: { type: String },
+      artist: { type: String },
+      year: { type: Number },
+    },
+    newestSong: {
+      title: { type: String },
+      artist: { type: String },
+      year: { type: Number },
+    },
+    songsWithYearCount: { type: Number, default: 0 },
   },
   {
     timestamps: true,
   },
 );
-
-// Indexes for performance
-UserStatsSchema.index({ lastUpdated: -1 });
 
 export const UserStats =
   models.UserStats || model("UserStats", UserStatsSchema);

@@ -1,6 +1,6 @@
 # 🎵 YouTube Music Stats
 
-A comprehensive web application that analyzes your YouTube Music listening history to provide detailed insights into your music consumption patterns, favorite artists, top songs, and listening behaviors over time.
+A comprehensive web application that analyzes your YouTube Music listening history to provide detailed insights into your music consumption patterns, favorite artists, top songs, and listening behaviors over time. Features a beautiful "Wrapped" experience similar to Spotify Wrapped!
 
 ## ✨ Features
 
@@ -10,35 +10,37 @@ A comprehensive web application that analyzes your YouTube Music listening histo
 - **📈 Listening Patterns**: Analyze your music consumption over time
 - **🎵 Song Duration Analysis**: Get insights into your preferred song lengths
 - **📅 Historical Data**: Track your music journey with historical listening data
+- **🎁 Wrapped Experience**: Spotify-style animated year-in-review with shareable slides
+- **🎼 Music Era Analysis**: Discover what decade your music taste belongs to
 - **🌙 Dark/Light Mode**: Seamless theme switching
 - **📱 Mobile Responsive**: Optimized for all devices
 - **🔐 Secure Authentication**: Email/password and Google OAuth integration
 - **☁️ Cloud Storage**: Secure data storage with MongoDB
 - **📂 File Upload**: Easy Google Takeout data import
-- **⚡ Real-time Processing**: Background processing with progress tracking
 
 ## 🛠️ Tech Stack
 
 ### Frontend
 
-- **Next.js 15**: React framework with App Router
+- **Next.js 16**: React 19 framework with App Router
 - **TypeScript**: Type-safe development
-- **Tailwind CSS**: Utility-first CSS framework
-- **Shadcn UI**: UI components
-- **Framer Motion**: Smooth animations
+- **Tailwind CSS v4**: Utility-first CSS framework
+- **Shadcn UI**: Beautiful UI components
+- **Motion (Framer Motion)**: Smooth animations and transitions
+- **Recharts**: Interactive charts and visualizations
+- **React Three Fiber**: 3D graphics and visual effects
 
 ### Backend
 
 - **MongoDB**: NoSQL database
 - **Mongoose**: MongoDB object modeling
-- **Better Auth**: Authentication system
-- **Inngest**: Background job processing
+- **Better Auth**: Modern authentication system
 
 ### Development
 
 - **Biome**: Fast linting and formatting
 - **pnpm**: Package manager
-- **Turbopack**: Fast bundler
+- **Turbopack**: Lightning-fast bundler
 
 ## 🚀 Getting Started
 
@@ -79,13 +81,6 @@ A comprehensive web application that analyzes your YouTube Music listening histo
    # Google OAuth (optional)
    GOOGLE_CLIENT_ID=your-google-client-id
    GOOGLE_CLIENT_SECRET=your-google-client-secret
-   
-   # Background Jobs
-   INNGEST_EVENT_KEY=your-inngest-event-key
-   INNGEST_SIGNING_KEY=your-inngest-signing-key
-   
-   # YouTube API (for additional data)
-   YOUTUBE_API_KEY=your-youtube-api-key
    ```
 
 4. **Start the development server**
@@ -123,23 +118,39 @@ Once processing is complete, explore your personalized dashboard featuring:
 - **Top Artists**: Your most listened-to artists with play counts
 - **Top Songs**: Your favorite tracks ranked by play frequency  
 - **Listening Patterns**: Charts showing your music consumption over time
-- **Additional Insights**: Average song length, listening sessions, and trends
+- **Music Era**: Discover what decade defines your music taste
+- **Wrapped Experience**: An animated journey through your listening year
+
+## 🎁 Wrapped Experience
+
+The Wrapped feature provides a Spotify-style animated slideshow of your music year:
+
+- **Intro Slide**: Welcome and overview of your journey
+- **Listening Time**: Total hours spent listening to music
+- **Top Artist**: Your most played artist with stats
+- **Top Song**: Your most played track
+- **Music Era**: What decade your music taste belongs to
+- **Fun Facts**: Interesting insights about your listening habits
+- **Summary**: Shareable summary of your music year
+
+Navigate using arrow keys, click, or let it autoplay!
 
 ## 🏗️ Project Structure
 
 ```
 ├── app/                      # Next.js App Router pages
 │   ├── api/                  # API routes
-│   ├── auth/                 # Authentication pages
-│   ├── dashboard/            # Dashboard page
-│   ├── upload/               # File upload page
+│   ├── auth/                 # Authentication pages (signin, signup)
+│   ├── dashboard/            # Dashboard with stats components
+│   ├── upload/               # File upload functionality
+│   ├── wrapped/              # Spotify-style Wrapped experience
 │   └── layout.tsx            # Root layout
 ├── components/               # React components
-│   ├── ui/                   # UI components (buttons, cards, etc.)
-│   ├── dashboard/            # Dashboard-specific components
-│   └── ...                   # Other components
+│   ├── ui/                   # Shadcn UI components
+│   └── ...                   # App components (Navigation, etc.)
 ├── lib/                      # Utility libraries
-│   ├── auth/                 # Authentication configuration
+│   ├── auth/                 # Better Auth configuration
+│   ├── client/               # Client-side utilities (parser, stats)
 │   ├── db/                   # Database models and connection
 │   ├── services/             # Business logic services
 │   └── types/                # TypeScript type definitions
@@ -151,10 +162,13 @@ Once processing is complete, explore your personalized dashboard featuring:
 
 The application uses MongoDB with the following main collections:
 
-- **Users**: User account information
-- **UserMusicHistories**: Individual listening history entries
-- **UserStats**: Aggregated user statistics
-- **Songs**: Song metadata and information
+- **Users**: User account information (managed by Better Auth)
+- **Songs**: Song metadata (title, artist, duration, thumbnail, release date)
+- **UserStats**: Aggregated user statistics including:
+  - Total songs, artists, and playtime
+  - Top songs and artists with play counts
+  - Music era analysis and decade distribution
+  - Daily averages and longest listening sessions
 
 ## 🔧 Configuration
 
@@ -169,16 +183,11 @@ Configure these in `lib/auth/config.ts` and your environment variables.
 
 ### File Processing
 
-Google Takeout files are processed using:
+Google Takeout files are processed client-side with:
 
-- Background job processing with Inngest
 - Intelligent song title parsing
+- Artist extraction from video metadata
 - Duplicate detection and handling
-- Progress tracking for large files
-
-### API Rate Limiting
-
-API endpoints are protected with rate limiting to prevent abuse.
 
 ## 📊 Analytics Features
 
@@ -192,14 +201,16 @@ API endpoints are protected with rate limiting to prevent abuse.
 - First and last play dates
 - Daily listening averages
 - Longest listening sessions
+- Music era and decade distribution
+- Oldest and newest songs in library
 
 ### Visualizations
 
 - Play count trends over time
 - Top artists bar charts
 - Top songs rankings
-- Listening pattern heatmaps
-- Monthly/weekly breakdowns
+- Decade distribution charts
+- Music era insights
 
 ## 🚀 Deployment
 
@@ -247,20 +258,20 @@ We welcome contributions! Please follow these steps:
 
 **File Upload Fails**
 
-- Check file size limits (max 10MB)
 - Ensure the file is a valid JSON from Google Takeout
+- Check that you're uploading the correct `watch-history.json` file
 
 **Authentication Issues**
 
-- Verify MongoDB connection
+- Verify MongoDB connection string
 - Check Better Auth configuration
 - Ensure environment variables are set correctly
 
-**Processing Stuck**
+**Stats Not Loading**
 
-- Check Inngest dashboard for job status
-- Verify background job configuration
-- Check server logs for errors
+- Make sure you've uploaded your data first
+- Check browser console for errors
+- Verify API routes are working
 
 ### Getting Help
 

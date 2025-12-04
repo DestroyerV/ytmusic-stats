@@ -1,17 +1,7 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth/config";
 import { headers } from "next/headers";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { UploadArea } from "@/components/upload-area";
-import { Navigation } from "@/components/Navigation";
-import { Upload, Info } from "lucide-react";
-import { UploadContent } from "@/components/UploadContent";
+import { redirect } from "next/navigation";
+import { UploadContent } from "@/app/upload/components/UploadContent";
+import { auth } from "@/lib/auth/config";
 
 export default async function UploadPage() {
   const session = await auth.api.getSession({

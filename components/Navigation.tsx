@@ -1,34 +1,44 @@
 "use client";
 
+import { LogOut } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import { signOut } from "@/lib/auth/client";
 import {
   MobileNav,
   MobileNavHeader,
   MobileNavMenu,
   MobileNavToggle,
+  NavBody,
   Navbar,
   NavbarButton,
   NavbarLogo,
-  NavBody,
   NavItems,
 } from "./ui/resizable-navbar";
-import { useState } from "react";
-import Link from "next/link";
-import { signOut } from "@/lib/auth/client";
-import { LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
 
-interface NavigationProps {
-  userName?: string;
-}
-
-export function Navigation({ userName }: NavigationProps) {
+/**
+ * Navigation Component
+ *
+ * Responsive navigation bar that adapts to both desktop and mobile viewports.
+ * Displays different navigation items based on user authentication status:
+ * - Authenticated: Dashboard, Upload, and Sign Out options
+ * - Unauthenticated: Features, How It Works, Login, and Get Started options
+ */
+export function Navigation() {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Hide navigation on /wrapped page
+  if (pathname === "/wrapped") {
+    return null;
+  }
 
   const handleSignOut = async () => {
     await signOut();
-    // Optionally, you can redirect the user to the homepage or login page after sign out
     router.push("/");
   };
 
@@ -43,8 +53,6 @@ export function Navigation({ userName }: NavigationProps) {
     },
   ];
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   return (
     <Navbar>
       {/* Desktop Navigation */}
@@ -55,6 +63,7 @@ export function Navigation({ userName }: NavigationProps) {
             <NavItems
               items={[
                 { name: "Dashboard", link: "/dashboard" },
+                { name: "Wrapped", link: "/wrapped" },
                 { name: "Upload", link: "/upload" },
               ]}
             />
@@ -105,6 +114,15 @@ export function Navigation({ userName }: NavigationProps) {
               </NavbarButton>
               <NavbarButton
                 as={Link}
+                href="/wrapped"
+                onClick={() => setIsMobileMenuOpen(false)}
+                variant="secondary"
+                className="w-full"
+              >
+                Wrapped
+              </NavbarButton>
+              <NavbarButton
+                as={Link}
                 href="/upload"
                 onClick={() => setIsMobileMenuOpen(false)}
                 variant="secondary"
@@ -125,9 +143,9 @@ export function Navigation({ userName }: NavigationProps) {
             </div>
           ) : (
             <div className="flex w-full flex-col gap-4">
-              {navItems.map((item, idx) => (
+              {navItems.map((item) => (
                 <a
-                  key={`mobile-link-${idx}`}
+                  key={item.link}
                   href={item.link}
                   {...(item.link.startsWith("http") && {
                     target: "_blank",

@@ -1,8 +1,6 @@
 "use client";
 
-import { ReactNode, useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import type { ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "./theme-provider";
 
@@ -11,18 +9,6 @@ interface ProvidersProps {
 }
 
 export default function Providers({ children }: ProvidersProps) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 1000 * 60 * 5, // 5 minutes
-            refetchOnWindowFocus: false,
-          },
-        },
-      }),
-  );
-
   return (
     <ThemeProvider
       attribute="class"
@@ -30,11 +16,8 @@ export default function Providers({ children }: ProvidersProps) {
       enableSystem
       disableTransitionOnChange
     >
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <Toaster position="bottom-right" />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      {children}
+      <Toaster position="bottom-right" />
     </ThemeProvider>
   );
 }

@@ -1,5 +1,5 @@
-import mongoose, { Schema, model, models } from "mongoose";
-import { ISong } from "../../types/database";
+import { model, models, Schema } from "mongoose";
+import type { ISong } from "@/lib/types/database";
 
 const SongSchema = new Schema<ISong>(
   {
@@ -7,58 +7,36 @@ const SongSchema = new Schema<ISong>(
       type: String,
       required: true,
       unique: true,
+      index: true,
+    },
+    youtubeId: {
+      type: String,
+      required: true,
+      unique: true,
     },
     title: {
       type: String,
       required: true,
-      trim: true,
     },
     artist: {
       type: String,
       required: true,
-      trim: true,
-    },
-    duration: {
-      type: Number, // in seconds
-      required: true,
-      min: 1,
-    },
-    youtubeId: {
-      type: String,
-      trim: true,
     },
     channelTitle: {
       type: String,
-      trim: true,
     },
-    categoryId: {
-      type: String,
-      trim: true,
-    },
-    viewCount: {
-      type: Number,
-      min: 0,
-    },
-    genres: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
-    estimationMethod: {
-      type: String,
-      enum: ["youtube-api", "title-pattern", "genre-default", "global-average"],
-      required: true,
-    },
-    confidence: {
+    duration: {
       type: Number,
       required: true,
-      min: 0,
-      max: 1,
     },
-    playCount: {
-      type: Number,
-      default: 0,
+    thumbnail: {
+      type: String,
+    },
+    artistImage: {
+      type: String,
+    },
+    releaseDate: {
+      type: Date,
     },
   },
   {
@@ -66,15 +44,4 @@ const SongSchema = new Schema<ISong>(
   },
 );
 
-// Indexes for performance
-SongSchema.index({ artist: 1 }); // Artist-based queries
-SongSchema.index({ estimationMethod: 1 }); // For analytics
-SongSchema.index({ confidence: -1 }); // Quality sorting
-SongSchema.index({ playCount: -1 }); // Popularity sorting
-SongSchema.index({ createdAt: -1 }); // Recent additions
-
-// Compound indexes
-SongSchema.index({ artist: 1, title: 1 });
-SongSchema.index({ estimationMethod: 1, confidence: -1 });
-
-export const Song = models.Song || model<ISong>("Song", SongSchema);
+export const Song = models.Song || model("Song", SongSchema);
