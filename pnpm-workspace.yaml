@@ -1,4 +1,5 @@
 onlyBuiltDependencies:
+  - '@sentry/cli'
   - '@tailwindcss/oxide'
   - core-js
   - msgpackr-extract

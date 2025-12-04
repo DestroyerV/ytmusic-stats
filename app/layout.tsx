@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import { Navigation } from "@/components/Navigation";
 import Providers from "@/components/providers";
 
@@ -39,7 +40,10 @@ export default function RootLayout({
               </div>
             </div>
             {/* Main Content - Full screen with beam background */}
-            <main className="relative z-10 min-h-screen">{children}</main>
+            <main className="relative z-10 min-h-screen">
+              {children}
+              <Analytics />
+            </main>
           </div>
         </Providers>
       </body>
